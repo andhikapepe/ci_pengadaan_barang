@@ -76,6 +76,10 @@ INSERT INTO `barang_keluar` (`id_barang_keluar`, `user_id`, `barang_id`, `jumlah
 -- Triggers `barang_keluar`
 --
 DELIMITER $$
+CREATE TRIGGER `delete_stok_keluar` BEFORE DELETE ON `barang_keluar` FOR EACH ROW UPDATE `barang` SET `barang`.`stok` = `barang`.`stok` + OLD.jumlah_keluar WHERE `barang`.`id_barang` = OLD.barang_id
+$$
+DELIMITER ;
+DELIMITER $$
 CREATE TRIGGER `update_stok_keluar` BEFORE INSERT ON `barang_keluar` FOR EACH ROW UPDATE `barang` SET `barang`.`stok` = `barang`.`stok` - NEW.jumlah_keluar WHERE `barang`.`id_barang` = NEW.barang_id
 $$
 DELIMITER ;
